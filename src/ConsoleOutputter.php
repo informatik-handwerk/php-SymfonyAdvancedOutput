@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Command\Utils;
+namespace ihde\php74\SymfonyAdvancedOutput;
 
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\Output;
