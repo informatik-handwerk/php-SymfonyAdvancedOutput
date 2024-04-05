@@ -18,37 +18,35 @@ trait ConsoleOutputterTrait
     public string $autputIndent = "";
     /** @var ProgressBar|ProgressBarLike|null */
     private $autputProgressBar = null;
-
+    
     /**
      * @implements ConsoleOutputter
      * @inheritDoc
      */
-    public function initializeConsoleOutputter($autputModel, bool $authoritative): void
-    {
+    public function initializeConsoleOutputter($autputModel, bool $authoritative): void {
         if (!isset($this->autputModel) || $authoritative) {
             $this->autputModel = $autputModel;
         }
-
+        
         foreach ($this as $property) {
             if ($property === $this) {
                 continue;
             }
-            if ($property instanceof ConsoleOutputter)  {
+            if ($property instanceof ConsoleOutputter) {
                 $property->initializeConsoleOutputter($autputModel, false);
             }
         }
     }
-
+    
     /**
      * @implements ConsoleOutputter
      * @inheritDoc
      */
-    public function out(): AdvancedOutputLike
-    {
+    public function out(): AdvancedOutputLike {
         if (!isset($this->autput)) {
             $className = \substr(\strrchr(\get_class($this), "\\"), 1);
             $this->autputObject = $className . "." . \spl_object_id($this);
-
+            
             if (!isset($this->autputModel)) {
                 $this->autput = VoidAdvancedOutput::instance();
             } elseif ($this->autputModel instanceof OutputInterface) {
@@ -63,10 +61,10 @@ trait ConsoleOutputterTrait
                 throw new \LogicException("Unexpected type.");
             }
         }
-
+        
         return $this->autput;
     }
-
+    
     /**
      * @param AdvancedOutputWriteln $autput
      * @param string $stringModel
@@ -76,40 +74,38 @@ trait ConsoleOutputterTrait
      */
     protected function out_writeln(
         AdvancedOutputWriteln $autput,
-        string $stringModel,
-        array $vsprintf = [],
-        array $colorMapper = []
+        string                $stringModel,
+        array                 $vsprintf = [],
+        array                 $colorMapper = []
     ): void {
         if ($this->autputProgressBar) {
             $this->autputProgressBar->clear();
         }
-
+        
         $autput = $autput ?? $this->out();
         $autput->writeln(
             $this->autputIndent . "<gray>[" . $this->autputObject . "]</gray> " . $stringModel,
             $vsprintf,
             $colorMapper
         );
-
+        
         if ($this->autputProgressBar) {
             $this->autputProgressBar->display();
         }
     }
-
+    
     /**
      * @implements ConsoleOutputter
      * @inheritDoc
      */
-    public function out_no(string $stringModel, array $vsprintf = [], array $colorMapper = []): void
-    {
+    public function out_no(string $stringModel, array $vsprintf = [], array $colorMapper = []): void {
     }
-
+    
     /**
      * @implements ConsoleOutputter
      * @inheritDoc
      */
-    public function out_noIf(string $stringModel, array $vsprintf = [], array $colorMapper = []): void
-    {
+    public function out_noIf(string $stringModel, array $vsprintf = [], array $colorMapper = []): void {
         $this->out_writeln(
             $this->out(),
             $stringModel,
@@ -117,13 +113,12 @@ trait ConsoleOutputterTrait
             $colorMapper
         );
     }
-
+    
     /**
      * @implements ConsoleOutputter
      * @inheritDoc
      */
-    public function out_if_q(string $stringModel, array $vsprintf = [], array $colorMapper = []): void
-    {
+    public function out_if_q(string $stringModel, array $vsprintf = [], array $colorMapper = []): void {
         $this->out_writeln(
             $this->out()->if_q(),
             $stringModel,
@@ -131,13 +126,12 @@ trait ConsoleOutputterTrait
             $colorMapper
         );
     }
-
+    
     /**
      * @implements ConsoleOutputter
      * @inheritDoc
      */
-    public function out_if_n(string $stringModel, array $vsprintf = [], array $colorMapper = []): void
-    {
+    public function out_if_n(string $stringModel, array $vsprintf = [], array $colorMapper = []): void {
         $this->out_writeln(
             $this->out()->if_n(),
             $stringModel,
@@ -145,13 +139,12 @@ trait ConsoleOutputterTrait
             $colorMapper
         );
     }
-
+    
     /**
      * @implements ConsoleOutputter
      * @inheritDoc
      */
-    public function out_if_v(string $stringModel, array $vsprintf = [], array $colorMapper = []): void
-    {
+    public function out_if_v(string $stringModel, array $vsprintf = [], array $colorMapper = []): void {
         $this->out_writeln(
             $this->out()->if_v(),
             $stringModel,
@@ -159,13 +152,12 @@ trait ConsoleOutputterTrait
             $colorMapper
         );
     }
-
+    
     /**
      * @implements ConsoleOutputter
      * @inheritDoc
      */
-    public function out_if_vv(string $stringModel, array $vsprintf = [], array $colorMapper = []): void
-    {
+    public function out_if_vv(string $stringModel, array $vsprintf = [], array $colorMapper = []): void {
         $this->out_writeln(
             $this->out()->if_vv(),
             $stringModel,
@@ -173,13 +165,12 @@ trait ConsoleOutputterTrait
             $colorMapper
         );
     }
-
+    
     /**
      * @implements ConsoleOutputter
      * @inheritDoc
      */
-    public function out_if_vvv(string $stringModel, array $vsprintf = [], array $colorMapper = []): void
-    {
+    public function out_if_vvv(string $stringModel, array $vsprintf = [], array $colorMapper = []): void {
         $this->out_writeln(
             $this->out()->if_vvv(),
             $stringModel,
@@ -187,7 +178,7 @@ trait ConsoleOutputterTrait
             $colorMapper
         );
     }
-
+    
     /**
      * @implements ConsoleOutputter
      * @inheritDoc
@@ -195,11 +186,11 @@ trait ConsoleOutputterTrait
     public function out_if(
         string $ifVerbosity,
         string $stringModel,
-        array $vsprintf = [],
-        array $colorMapper = []
+        array  $vsprintf = [],
+        array  $colorMapper = []
     ): void {
         assert(\in_array($ifVerbosity, ConsoleOutputter::VERBOSITIES, true));
-
+        
         $fOut = "out_$ifVerbosity";
         $this->{$fOut}(
             $stringModel,
@@ -207,38 +198,35 @@ trait ConsoleOutputterTrait
             $colorMapper
         );
     }
-
+    
     /**
      * @return ProgressBar|ProgressBarLike
      */
-    public function out_progressBar()
-    {
+    public function out_progressBar() {
         if ($this->autputProgressBar !== null) {
             throw new \LogicException("Multiple progress bars not supported.");
         }
-
+        
         $this->autputProgressBar = $this->out()->progressBar();
         return $this->autputProgressBar;
     }
-
+    
     /**
      * @return ProgressBar|ProgressBarLike
      */
-    public function out_progressBar_fixate()
-    {
+    public function out_progressBar_fixate() {
         $this->out()->writeln("");
         return $this->autputProgressBar;
     }
-
+    
     /**
      * @return void
      */
-    public function out_progressBar_finish(): void
-    {
+    public function out_progressBar_finish(): void {
         $this->autputProgressBar->finish();
         $this->out()->writeln("");
         $this->autputProgressBar = null;
     }
-
-
+    
+    
 }

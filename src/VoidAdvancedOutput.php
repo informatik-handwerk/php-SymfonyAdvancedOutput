@@ -11,101 +11,90 @@ use Symfony\Component\Console\Output\OutputInterface;
 class VoidAdvancedOutput implements AdvancedOutputLike
 {
     protected static self $instance;
-
+    
     /**
      *
      */
-    protected function __construct()
-    {
+    protected function __construct() {
     }
-
+    
     /**
      * @return static
      */
-    public static function instance(): self
-    {
+    public static function instance(): self {
         self::$instance = self::$instance ?? new static();
         return self::$instance;
     }
-
+    
     /**
      * @implements AdvancedOutputWriteln
      * @inheritDoc
      */
-    public function writeln(string $stringModel, array $vsprintf = [], array $colorMapper = []): void
-    {
+    public function writeln(string $stringModel, array $vsprintf = [], array $colorMapper = []): void {
     }
-
+    
     /**
      * @implements AdvancedOutputWriteln
      * @inheritDoc
      */
-    public function writeLargeBlock(array $lines, string $style): void
-    {
+    public function writeLargeBlock(array $lines, string $style): void {
     }
-
+    
     /**
      * @implements AdvancedOutputWriteln
      * @inheritDoc
      */
-    public function renderThrowable(\Throwable $t): void
-    {
+    public function renderThrowable(\Throwable $t): void {
     }
-
+    
     /**
      * @implements AdvancedOutputConditional
      * @inheritDoc
      */
-    public function if_q(): AdvancedOutputWriteln
-    {
+    public function if_q(): AdvancedOutputWriteln {
         return $this;
     }
-
+    
     /**
      * @implements AdvancedOutputConditional
      * @inheritDoc
      */
-    public function if_n(): AdvancedOutputWriteln
-    {
+    public function if_n(): AdvancedOutputWriteln {
         return $this;
     }
-
+    
     /**
      * @implements AdvancedOutputConditional
      * @inheritDoc
      */
-    public function if_v(): AdvancedOutputWriteln
-    {
+    public function if_v(): AdvancedOutputWriteln {
         return $this;
     }
-
+    
     /**
      * @implements AdvancedOutputConditional
      * @inheritDoc
      */
-    public function if_vv(): AdvancedOutputWriteln
-    {
+    public function if_vv(): AdvancedOutputWriteln {
         return $this;
     }
-
+    
     /**
      * @implements AdvancedOutputConditional
      * @inheritDoc
      */
-    public function if_vvv(): AdvancedOutputWriteln
-    {
+    public function if_vvv(): AdvancedOutputWriteln {
         return $this;
     }
-
+    
     /**
      * @implements AdvancedOutputWriteln
      * @inheritDoc
      */
-    public function progressBar()
-    {
+    public function progressBar() {
         return VoidProgressBar::instance();
     }
-
-
+    
+    
 }
 

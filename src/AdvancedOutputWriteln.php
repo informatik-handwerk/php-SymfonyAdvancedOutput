@@ -18,25 +18,25 @@ interface AdvancedOutputWriteln
      * @return void
      */
     public function writeln(string $stringModel, array $vsprintf = [], array $colorMapper = []): void;
-
+    
     /**
      * @param string[] $lines
      * @param string $style
      * @return void
      */
     public function writeLargeBlock(array $lines, string $style): void;
-
+    
     /**
      * @return ProgressBar|ProgressBarLike
      */
     public function progressBar();
-
+    
     /**
      * @param \Throwable $t
      * @return void
      */
     public function renderThrowable(\Throwable $t): void;
-
-
+    
+    
 }
 

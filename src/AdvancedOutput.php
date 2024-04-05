@@ -30,7 +30,7 @@ class AdvancedOutput implements AdvancedOutputLike
     public const COLOR_bright_magenta = 'bright-magenta';
     public const COLOR_bright_cyan = 'bright-cyan';
     public const COLOR_bright_white = 'bright-white';
-
+    
     public const COLORS = [
         self::COLOR_black,
         self::COLOR_red,
@@ -50,51 +50,49 @@ class AdvancedOutput implements AdvancedOutputLike
         self::COLOR_bright_cyan,
         self::COLOR_bright_white,
     ];
-
+    
     public const OPTION_bold = "bold";
     public const OPTION_underscore = "underscore";
     public const OPTION_blink = "blink";
     public const OPTION_reverse = "reverse";
     public const OPTION_conceal = "conceal";
-
+    
     protected OutputInterface $output;
     protected FormatterHelper $formatterHelper;
     protected Application $application; #lazy init
-
+    
     /**
      * @param OutputInterface $output
      */
-    public function __construct(OutputInterface $output)
-    {
+    public function __construct(OutputInterface $output) {
         $this->output = $output;
         $this->formatterHelper = new FormatterHelper();
-
+        
         foreach (static::COLORS as $fg) {
             $colorStyle = new OutputFormatterStyle($fg);
             $output->getFormatter()->setStyle($fg, $colorStyle);
             $colorStyle = new OutputFormatterStyle($fg, null, [self::OPTION_bold]);
-            $output->getFormatter()->setStyle(self::OPTION_bold. "-" . $fg, $colorStyle);
-
+            $output->getFormatter()->setStyle(self::OPTION_bold . "-" . $fg, $colorStyle);
+            
             foreach (static::COLORS as $bg) {
                 $colorStyle = new OutputFormatterStyle($fg, $bg);
                 $output->getFormatter()->setStyle("{$fg}-on-{$bg}", $colorStyle);
             }
         }
     }
-
+    
     /**
      * @implements AdvancedOutputWriteln
      * @inheritDoc
      */
-    public function writeln(string $stringModel, array $vsprintf = [], array $colorMapper = []): void
-    {
+    public function writeln(string $stringModel, array $vsprintf = [], array $colorMapper = []): void {
         $mapping = [];
-
+        
         foreach ($colorMapper as $vsprintfIndex => $mapper) {
             $value = $vsprintf[$vsprintfIndex];
-            if (\is_array($mapper))  {
+            if (\is_array($mapper)) {
                 $colorActually = $mapper[$value] ?? null;
-            } elseif (\is_callable($mapper))  {
+            } elseif (\is_callable($mapper)) {
                 $colorActually = $mapper($value, $vsprintfIndex);
             } else {
                 $colorActually = null;
@@ -102,80 +100,77 @@ class AdvancedOutput implements AdvancedOutputLike
             $mapping["<$vsprintfIndex>"] = $colorActually ? "<$colorActually>" : "";
             $mapping["</$vsprintfIndex>"] = $colorActually ? "</$colorActually>" : "";
         }
-
+        
         if (empty($vsprintf)) {
             $stringModel = \str_replace("%", "%%", $stringModel);
         }
-
+        
         $string = \vsprintf($stringModel, $vsprintf);
         $stringColored = \str_replace(\array_keys($mapping), \array_values($mapping), $string);
-
+        
         $this->output->writeln($stringColored);
     }
-
+    
     /**
      * @implements AdvancedOutputWriteln
      * @inheritDoc
      */
-    public function writeLargeBlock(array $lines, string $style): void
-    {
+    public function writeLargeBlock(array $lines, string $style): void {
         $formattedBlock = $this->formatterHelper->formatBlock($lines, $style, true);
         $this->output->writeln($formattedBlock);
         $this->output->writeln("");
     }
-
+    
     /**
      * @implements AdvancedOutputWriteln
      * @inheritDoc
      */
-    public function renderThrowable(\Throwable $t): void
-    {
-        if (!isset($this->application))  {
+    public function renderThrowable(\Throwable $t): void {
+        if (!isset($this->application)) {
             $this->application = new Application();
         }
-
+        
         $oldVerbosity = $this->output->getVerbosity();
         $this->output->setVerbosity(OutputInterface::VERBOSITY_VERY_VERBOSE);
-
+        
         $this->application->renderThrowable($t, $this->output);
-
+        
         $this->output->setVerbosity($oldVerbosity);
     }
-
+    
     /**
      * @param array $headers
      * @param array $items
      * @param callable|null $mapper
      * @return Table
      */
-    public function constructTable(array $headers, array $items, ?callable $mapper): Table
-    {
+    public function constructTable(array $headers, array $items, ?callable $mapper): Table {
         $table = new Table($this->output);
         $table->setHeaders($headers);
-
+        
         foreach ($items as $item) {
             if ($mapper) {
                 $item = $mapper($item);
             }
-
+            
             $table->addRow($item);
         }
-
+        
         return $table;
     }
-
+    
     /**
      * @param callable $test
      * @return AdvancedOutputWriteln
      */
     public function if(callable $test): AdvancedOutputWriteln {
-        if ($test())  {
+        if ($test()) {
             return $this;
-        } else  {
+        } else {
             return VoidAdvancedOutput::instance();
         }
     }
-
+    
     /**
      * @implements AdvancedOutputConditional
      * @inheritDoc
@@ -183,7 +178,7 @@ class AdvancedOutput implements AdvancedOutputLike
     public function if_q(): AdvancedOutputWriteln {
         return $this->if([$this->output, "isQuiet"]);
     }
-
+    
     /**
      * @implements AdvancedOutputConditional
      * @inheritDoc
@@ -193,7 +188,7 @@ class AdvancedOutput implements AdvancedOutputLike
             fn(): bool => $this->output->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL
         );
     }
-
+    
     /**
      * @implements AdvancedOutputConditional
      * @inheritDoc
@@ -201,7 +196,7 @@ class AdvancedOutput implements AdvancedOutputLike
     public function if_v(): AdvancedOutputWriteln {
         return $this->if([$this->output, "isVerbose"]);
     }
-
+    
     /**
      * @implements AdvancedOutputConditional
      * @inheritDoc
@@ -209,7 +204,7 @@ class AdvancedOutput implements AdvancedOutputLike
     public function if_vv(): AdvancedOutputWriteln {
         return $this->if([$this->output, "isVeryVerbose"]);
     }
-
+    
     /**
      * @implements AdvancedOutputConditional
      * @inheritDoc
@@ -217,16 +212,15 @@ class AdvancedOutput implements AdvancedOutputLike
     public function if_vvv(): AdvancedOutputWriteln {
         return $this->if([$this->output, "isDebug"]);
     }
-
+    
     /**
      * @implements AdvancedOutputWriteln
      * @inheritDoc
      */
-    public function progressBar()
-    {
+    public function progressBar() {
         return new ProgressBar($this->output);
     }
-
-
+    
+    
 }
 

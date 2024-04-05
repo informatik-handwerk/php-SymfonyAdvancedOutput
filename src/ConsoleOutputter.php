@@ -25,19 +25,19 @@ interface ConsoleOutputter
         self::IF_any,
         self::IF_no,
     ];
-
+    
     /**
      * @param null|Output|AdvancedOutputLike|ConsoleOutputter $autputModel
      * @param bool $authoritative
      * @return void
      */
     public function initializeConsoleOutputter($autputModel, bool $authoritative): void;
-
+    
     /**
      * @return AdvancedOutputLike
      */
     public function out(): AdvancedOutputLike;
-
+    
     /**
      * @implements AdvancedOutputWriteln::writeln
      * @param string $stringModel
@@ -46,7 +46,7 @@ interface ConsoleOutputter
      * @return void
      */
     public function out_no(string $stringModel, array $vsprintf = [], array $colorMapper = []): void;
-
+    
     /**
      * @implements AdvancedOutputWriteln::writeln
      * @param string $stringModel
@@ -55,7 +55,7 @@ interface ConsoleOutputter
      * @return void
      */
     public function out_noIf(string $stringModel, array $vsprintf = [], array $colorMapper = []): void;
-
+    
     /**
      * @implements AdvancedOutputWriteln::writeln
      * @param string $stringModel
@@ -64,7 +64,7 @@ interface ConsoleOutputter
      * @return void
      */
     public function out_if_q(string $stringModel, array $vsprintf = [], array $colorMapper = []): void;
-
+    
     /**
      * @implements AdvancedOutputWriteln::writeln
      * @param string $stringModel
@@ -73,7 +73,7 @@ interface ConsoleOutputter
      * @return void
      */
     public function out_if_n(string $stringModel, array $vsprintf = [], array $colorMapper = []): void;
-
+    
     /**
      * @implements AdvancedOutputWriteln::writeln
      * @param string $stringModel
@@ -82,7 +82,7 @@ interface ConsoleOutputter
      * @return void
      */
     public function out_if_v(string $stringModel, array $vsprintf = [], array $colorMapper = []): void;
-
+    
     /**
      * @implements AdvancedOutputWriteln::writeln
      * @param string $stringModel
@@ -91,7 +91,7 @@ interface ConsoleOutputter
      * @return void
      */
     public function out_if_vv(string $stringModel, array $vsprintf = [], array $colorMapper = []): void;
-
+    
     /**
      * @implements AdvancedOutputWriteln::writeln
      * @param string $stringModel
@@ -100,7 +100,7 @@ interface ConsoleOutputter
      * @return void
      */
     public function out_if_vvv(string $stringModel, array $vsprintf = [], array $colorMapper = []): void;
-
+    
     /**
      * @implements AdvancedOutputWriteln::writeln
      * @param string $verbosity
@@ -110,10 +110,10 @@ interface ConsoleOutputter
      * @return void
      */
     public function out_if(string $ifVerbosity, string $stringModel, array $vsprintf = [], array $colorMapper = []): void;
-
+    
     /**
      * @return ProgressBar|ProgressBarLike
      */
     public function out_progressBar();
-
+    
 }

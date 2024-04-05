@@ -7,7 +7,7 @@ namespace ihde\php74\SymfonyAdvancedOutput;
 
 interface AdvancedOutputLike
     extends AdvancedOutputConditional,
-            AdvancedOutputWriteln
+    AdvancedOutputWriteln
 {
 
 }
