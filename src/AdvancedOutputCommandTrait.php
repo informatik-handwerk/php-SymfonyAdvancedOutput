@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ihde\php74\SymfonyAdvancedOutput;
 
 use App\Service\API\ServiceResult;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Helper;
 
 trait AdvancedOutputCommandTrait

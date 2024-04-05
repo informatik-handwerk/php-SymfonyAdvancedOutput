@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ihde\php74\SymfonyAdvancedOutput;
 
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
 

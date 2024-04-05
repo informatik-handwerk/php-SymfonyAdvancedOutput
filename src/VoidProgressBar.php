@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace ihde\php74\SymfonyAdvancedOutput;
 
 
-use Symfony\Component\Console\Helper\Helper;
-use Symfony\Component\Console\Output\OutputInterface;
-
 class VoidProgressBar
     implements ProgressBarLike
 {

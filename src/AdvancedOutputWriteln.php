@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace ihde\php74\SymfonyAdvancedOutput;
 
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Output\OutputInterface;
 
 interface AdvancedOutputWriteln
 {
