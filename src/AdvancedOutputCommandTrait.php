@@ -42,6 +42,7 @@ trait AdvancedOutputCommandTrait
     /**
      * @param \stdClass|array|mixed $result
      * @return void
+     * @throws \JsonException
      */
     protected function outputResult($result): int {
         if (\is_object($result)) {
@@ -59,7 +60,7 @@ trait AdvancedOutputCommandTrait
         $this->out_if_n(
             "<bold-white>\$result = </bold-white>\n"
             . "<white>"
-            . \json_encode($result, \JSON_PRETTY_PRINT)
+            . \json_encode($result, \JSON_THROW_ON_ERROR | \JSON_PRETTY_PRINT)
             . "</white>"
         );
         
