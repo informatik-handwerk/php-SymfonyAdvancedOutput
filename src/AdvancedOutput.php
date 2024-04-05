@@ -85,7 +85,32 @@ class AdvancedOutput implements AdvancedOutputLike
      * @implements AdvancedOutputWriteln
      * @inheritDoc
      */
-    public function writeln(string $stringModel, array $vsprintf = [], array $colorMapper = []): void {
+    public function writeln(string $stringModel, ?array $vsprintf = null, ?array $colorMapper = null): void {
+        if ($vsprintf === null) {
+            $this->output->writeln($stringModel);
+            return;
+        }
+        
+        $countSignEscaped = \substr_count($stringModel, "%%");
+        $countSignBare = \substr_count($stringModel, "%");
+        $countSignUsage = $countSignBare - 2 * $countSignEscaped;
+        $countSignReplacementsNecessary = $countSignUsage - \count($vsprintf);
+        if ($countSignReplacementsNecessary > 0) {
+            \trigger_error(
+                "Escaped percent-sign for \\vsprintf(), \$countSignReplacementsNecessary = $countSignReplacementsNecessary",
+                \E_USER_WARNING);
+            $stringModelSanitized = \strrev(\str_replace("%", "%%", \strrev($stringModel), $countSignReplacementsNecessary));
+        } else {
+            $stringModelSanitized = $stringModel;
+        }
+        
+        $string = \vsprintf($stringModelSanitized, $vsprintf);
+        
+        if ($colorMapper === null) {
+            $this->output->writeln($string);
+            return;
+        }
+        
         $mapping = [];
         
         foreach ($colorMapper as $vsprintfIndex => $mapper) {
@@ -94,6 +119,8 @@ class AdvancedOutput implements AdvancedOutputLike
                 $colorActually = $mapper[$value] ?? null;
             } elseif (\is_callable($mapper)) {
                 $colorActually = $mapper($value, $vsprintfIndex);
+            } elseif (\is_string($mapper)) {
+                $colorActually = $mapper;
             } else {
                 $colorActually = null;
             }
@@ -101,13 +128,7 @@ class AdvancedOutput implements AdvancedOutputLike
             $mapping["</$vsprintfIndex>"] = $colorActually ? "</$colorActually>" : "";
         }
         
-        if (empty($vsprintf)) {
-            $stringModel = \str_replace("%", "%%", $stringModel);
-        }
-        
-        $string = \vsprintf($stringModel, $vsprintf);
         $stringColored = \str_replace(\array_keys($mapping), \array_values($mapping), $string);
-        
         $this->output->writeln($stringColored);
     }
     

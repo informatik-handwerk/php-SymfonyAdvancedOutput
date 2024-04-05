@@ -30,7 +30,7 @@ class VoidAdvancedOutput implements AdvancedOutputLike
      * @implements AdvancedOutputWriteln
      * @inheritDoc
      */
-    public function writeln(string $stringModel, array $vsprintf = [], array $colorMapper = []): void {
+    public function writeln(string $stringModel, ?array $vsprintf = null, ?array $colorMapper = null): void {
     }
     
     /**

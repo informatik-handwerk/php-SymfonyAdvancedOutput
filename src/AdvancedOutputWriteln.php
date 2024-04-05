@@ -13,11 +13,11 @@ interface AdvancedOutputWriteln
 {
     /**
      * @param string $stringModel
-     * @param array<int, string> $vsprintf
-     * @param array<int, array|callable> $colorMapper
+     * @param null|array<int, string> $vsprintf
+     * @param null|array<int, array|callable> $colorMapper
      * @return void
      */
-    public function writeln(string $stringModel, array $vsprintf = [], array $colorMapper = []): void;
+    public function writeln(string $stringModel, ?array $vsprintf = null, array $colorMapper = null): void;
     
     /**
      * @param string[] $lines
