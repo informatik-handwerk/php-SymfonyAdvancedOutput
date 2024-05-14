@@ -10,7 +10,7 @@ class ServiceResult
     private const EXITCODE_FATA_ERROR_SIGNAL = 128;
 
     public ServiceResultTime $time;
-    public int $exitCode = self::EXITCODE_FATA_ERROR_SIGNAL + self::SIGNAL_SIGHUP;
+    protected int $exitCode = self::EXITCODE_FATA_ERROR_SIGNAL + self::SIGNAL_SIGHUP;
 
     /**
      *
