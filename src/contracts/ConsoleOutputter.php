@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ihde\php74\SymfonyAdvancedOutput;
+namespace ihde\php74\SymfonyAdvancedOutput\contracts;
 
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\Output;

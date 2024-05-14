@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ihde\php74\SymfonyAdvancedOutput;
+namespace ihde\php74\SymfonyAdvancedOutput\impl\std;
 
-class ServiceResultTime
+use ihde\php74\SymfonyAdvancedOutput\contracts\ConsoleResultTime;
+
+class ConsoleResultTime_stdClass
+    implements ConsoleResultTime
 {
     /** @var int|string */
     public $startTime;
@@ -20,9 +23,10 @@ class ServiceResultTime
     {
         $this->startTime = \time();
     }
-
+    
     /**
-     * @return void
+     * @implements ConsoleResultTime
+     * @inheritdoc
      */
     public function seal(): void
     {
@@ -31,8 +35,8 @@ class ServiceResultTime
     }
     
     /**
-     * @return array
-     * @throws \JsonException
+     * @implements ConsoleResultTime
+     * @inheritdoc
      */
     public function toArray(): array
     {

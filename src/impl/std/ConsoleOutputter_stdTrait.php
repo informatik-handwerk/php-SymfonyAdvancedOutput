@@ -2,13 +2,18 @@
 
 declare(strict_types=1);
 
-namespace ihde\php74\SymfonyAdvancedOutput;
+namespace ihde\php74\SymfonyAdvancedOutput\impl\std;
 
+use ihde\php74\SymfonyAdvancedOutput\contracts\AdvancedOutputLike;
+use ihde\php74\SymfonyAdvancedOutput\contracts\AdvancedOutputWriteln;
+use ihde\php74\SymfonyAdvancedOutput\contracts\ConsoleOutputter;
+use ihde\php74\SymfonyAdvancedOutput\contracts\ProgressBarLike;
+use ihde\php74\SymfonyAdvancedOutput\impl\void\VoidAdvancedOutput;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
 
-trait ConsoleOutputterTrait
+trait ConsoleOutputter_stdTrait
 {
     /** @var null|Output|AdvancedOutputLike|ConsoleOutputter $autputModel */
     private $autputModel;

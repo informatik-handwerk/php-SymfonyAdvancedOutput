@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ihde\php74\SymfonyAdvancedOutput;
+namespace ihde\php74\SymfonyAdvancedOutput\impl\std;
 
+use ihde\php74\SymfonyAdvancedOutput\contracts\AdvancedOutputConditional;
+use ihde\php74\SymfonyAdvancedOutput\contracts\AdvancedOutputLike;
+use ihde\php74\SymfonyAdvancedOutput\contracts\AdvancedOutputWriteln;
+use ihde\php74\SymfonyAdvancedOutput\impl\void\VoidAdvancedOutput;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\FormatterHelper;

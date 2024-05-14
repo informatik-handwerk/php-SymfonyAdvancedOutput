@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ihde\php74\SymfonyAdvancedOutput;
+namespace ihde\php74\SymfonyAdvancedOutput\impl\void;
+
+use ihde\php74\SymfonyAdvancedOutput\contracts\AdvancedOutputConditional;
+use ihde\php74\SymfonyAdvancedOutput\contracts\AdvancedOutputLike;
+use ihde\php74\SymfonyAdvancedOutput\contracts\AdvancedOutputWriteln;
 
 class VoidAdvancedOutput implements AdvancedOutputLike
 {

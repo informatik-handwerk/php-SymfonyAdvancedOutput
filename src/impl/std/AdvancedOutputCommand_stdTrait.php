@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ihde\php74\SymfonyAdvancedOutput;
+namespace ihde\php74\SymfonyAdvancedOutput\impl\std;
 
+use ihde\php74\SymfonyAdvancedOutput\contracts\ConsoleOutputter;
 use Symfony\Component\Console\Helper\Helper;
 
-trait AdvancedOutputCommandTrait
+trait AdvancedOutputCommand_stdTrait
 {
     
     /**
@@ -45,14 +46,14 @@ trait AdvancedOutputCommandTrait
     }
     
     /**
-     * @param ServiceResult|\stdClass|array|mixed $result
+     * @param ConsoleResult_stdClass|\stdClass|array|mixed $result
      * @return int
      * @throws \JsonException
      */
     protected function outputResult($result): int {
         /** @var ConsoleOutputter $this */
         
-        if ($result instanceof ServiceResult) {
+        if ($result instanceof ConsoleResult_stdClass) {
             $timeObject = $result->time;
         } elseif (\is_object($result->state) && isset($result->state->startTime, $result->state->endTime)) {
             $timeObject = $result->state;
@@ -73,7 +74,7 @@ trait AdvancedOutputCommandTrait
             . "</white>"
         );
         
-        if ($result instanceof ServiceResult) {
+        if ($result instanceof ConsoleResult_stdClass) {
             return $result->getExitCode();
         } else {
             //invalid, not implemented, caller should know
